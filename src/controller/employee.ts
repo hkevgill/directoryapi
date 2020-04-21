@@ -2,7 +2,7 @@ import * as express from "express";
 import {
   controller,
   httpGet,
-  BaseHttpController
+  BaseHttpController,
 } from "inversify-express-utils";
 import { inject } from "inversify";
 import { ElasticsearchService } from "../service/elasticsearch";

@@ -4,38 +4,41 @@ import { Container } from "inversify";
 import * as bodyParser from "body-parser";
 import TYPES from "./constant/types";
 import { ElasticsearchService } from "./service/elasticsearch";
+import { LogService } from "./service/logservice";
 import "./controller/employee";
 import "./controller/department";
 import morgan = require("morgan");
 import cors = require("cors");
-
+import { Application } from "express";
+import dotenv = require("dotenv");
 
 // load everything needed to the Container
-let container = new Container();
+const container: Container = new Container();
 container
   .bind<ElasticsearchService>(TYPES.ElasticsearchService)
   .to(ElasticsearchService);
+container.bind<LogService>(TYPES.LogService).to(LogService);
 
 // start the server
-let server = new InversifyExpressServer(container);
+const server: InversifyExpressServer = new InversifyExpressServer(container);
 
-server.setConfig(app => {
+server.setConfig((app) => {
   app.use(
     bodyParser.urlencoded({
-      extended: true
+      extended: true,
     })
   );
   app.use(bodyParser.json());
-  let logger = morgan("combined");
+  const logger = morgan("combined");
   app.use(logger);
   app.use(cors());
 });
 
 if (process.env.NODE_ENV === undefined) {
-  require('dotenv').config();
+  dotenv.config();
 }
 
-let serverInstance = server.build();
+const serverInstance: Application = server.build();
 serverInstance.listen(process.env.PORT, () => {
   console.log("Server started on port " + process.env.PORT);
 });
