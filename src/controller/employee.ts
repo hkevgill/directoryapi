@@ -24,7 +24,7 @@ export class EmployeeController extends BaseHttpController {
   public async search(req: express.Request) {
     const result: ApiResponse = await this.elasticsearchService.search(
       this.index,
-      req.query.searchString
+      req.query.searchString.toString()
     );
     return this.json(result.body.hits);
   }

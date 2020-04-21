@@ -9,6 +9,7 @@ import "./controller/department";
 import morgan = require("morgan");
 import cors = require("cors");
 
+
 // load everything needed to the Container
 let container = new Container();
 container
@@ -30,7 +31,11 @@ server.setConfig(app => {
   app.use(cors());
 });
 
-let serverInstance = server.build();
-serverInstance.listen(3000);
+if (process.env.NODE_ENV === undefined) {
+  require('dotenv').config();
+}
 
-console.log("Server started on port 3000 :)");
+let serverInstance = server.build();
+serverInstance.listen(process.env.PORT, () => {
+  console.log("Server started on port " + process.env.PORT);
+});

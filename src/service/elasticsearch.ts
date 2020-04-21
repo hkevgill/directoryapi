@@ -8,13 +8,12 @@ import { injectable } from "inversify";
 @injectable()
 export class ElasticsearchService {
   private _rawClient: Client;
+  private _hosts;
 
   constructor() {
+    this._hosts = process.env.ELASTICSEARCH_HOSTS.split(" ");
     this._rawClient = new Client({
-      nodes: [
-        "http://arcticfox.comp.uvic.ca:9200",
-        "http://sable.comp.uvic.ca:9200"
-      ]
+      nodes: this._hosts
     });
   }
 
