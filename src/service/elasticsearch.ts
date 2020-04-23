@@ -1,7 +1,5 @@
 import { Client, ApiResponse } from "@elastic/elasticsearch";
-import { injectable, inject } from "inversify";
-import { LogService } from "./logservice";
-import TYPES from "../constant/types";
+import { injectable } from "inversify";
 
 /**
  * InversifyJS doesn't support making 3rd party classes injectable. This class acts as a facade
@@ -14,13 +12,10 @@ export class ElasticsearchService {
   private _username: string;
   private _password: string;
 
-  constructor(
-    @inject(TYPES.LogService)
-    private log: LogService
-  ) {
+  constructor() {
     this._cloudId = process.env.ELASTICSEARCH_CLOUD_ID;
     this._username = process.env.ELASTICSEARCH_USERNAME;
-    this._password = process.env.ELASTICSEARCH_PASSWORD
+    this._password = process.env.ELASTICSEARCH_PASSWORD;
 
     this._rawClient = new Client({
       cloud: {
@@ -48,7 +43,6 @@ export class ElasticsearchService {
     index: string,
     searchString: string
   ): Promise<ApiResponse<any, any>> {
-    this.log.info("Searching for: " + searchString);
     const body: object = this.buildMultiMatchQuery(searchString);
     return await this._rawClient.search({ index: index, body: body });
   }
