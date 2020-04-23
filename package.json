@@ -4,14 +4,14 @@
   "description": "",
   "author": "hkevgill",
   "scripts": {
+    "rimraf": "./node_modules/rimraf/bin.js",
     "start:dev": "nodemon src/server.ts",
-    "build": "rimraf ./build && tsc",
+    "build": "./node_modules/rimraf/bin.js ./build && tsc",
     "start": "npm run build && node build/server.js",
     "test": "nyc --clean --all --require ts-node/register --require reflect-metadata/Reflect --extension .ts -- mocha --exit --timeout 5000",
     "test:all": "npm test **/*.spec.ts",
     "update": "updates --update --minor && npm install",
-    "postupdate": "git diff-files --quiet package-lock.json || npm test",
-    "rimraf": "./node_modules/rimraf/bin.js"
+    "postupdate": "git diff-files --quiet package-lock.json || npm test"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.0",
