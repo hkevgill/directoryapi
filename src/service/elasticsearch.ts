@@ -10,15 +10,26 @@ import TYPES from "../constant/types";
 @injectable()
 export class ElasticsearchService {
   private _rawClient: Client;
-  private _hosts: string[];
+  private _cloudId: string;
+  private _username: string;
+  private _password: string;
 
   constructor(
     @inject(TYPES.LogService)
     private log: LogService
   ) {
-    this._hosts = process.env.ELASTICSEARCH_HOSTS.split(" ");
+    this._cloudId = process.env.ELASTICSEARCH_CLOUD_ID;
+    this._username = process.env.ELASTICSEARCH_USERNAME;
+    this._password = process.env.ELASTICSEARCH_PASSWORD
+
     this._rawClient = new Client({
-      nodes: this._hosts,
+      cloud: {
+        id: this._cloudId,
+      },
+      auth: {
+        username: this._username,
+        password: this._password,
+      },
     });
   }
 
@@ -37,7 +48,7 @@ export class ElasticsearchService {
     index: string,
     searchString: string
   ): Promise<ApiResponse<any, any>> {
-    this.log.info('Searching for: ' + searchString);
+    this.log.info("Searching for: " + searchString);
     const body: object = this.buildMultiMatchQuery(searchString);
     return await this._rawClient.search({ index: index, body: body });
   }
