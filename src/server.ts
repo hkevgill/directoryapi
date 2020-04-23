@@ -39,8 +39,7 @@ if (process.env.NODE_ENV === undefined) {
 }
 
 const serverInstance: Application = server.build();
-serverInstance.listen(process.env.PORT, () => {
-  console.log("Server started on port " + process.env.PORT);
 
-  console.log(process.env);
-});
+const port: string = process.env.PORT || "8080";
+
+serverInstance.listen(port, () => {});
