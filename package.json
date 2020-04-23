@@ -10,7 +10,8 @@
     "test": "nyc --clean --all --require ts-node/register --require reflect-metadata/Reflect --extension .ts -- mocha --exit --timeout 5000",
     "test:all": "npm test **/*.spec.ts",
     "update": "updates --update --minor && npm install",
-    "postupdate": "git diff-files --quiet package-lock.json || npm test"
+    "postupdate": "git diff-files --quiet package-lock.json || npm test",
+    "rimraf": "./node_modules/rimraf/bin.js"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.0",
