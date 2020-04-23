@@ -5,7 +5,7 @@
   "author": "hkevgill",
   "scripts": {
     "start:dev": "nodemon src/server.ts",
-    "build": "npm install && rimraf ./build && tsc",
+    "build": "npm install && tsc",
     "start": "npm run build && node build/server.js",
     "test": "nyc --clean --all --require ts-node/register --require reflect-metadata/Reflect --extension .ts -- mocha --exit --timeout 5000",
     "test:all": "npm test **/*.spec.ts",
